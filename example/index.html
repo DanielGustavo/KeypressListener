@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      padding: 10px;
+    }
+
+    section {
+      display: flex;
+    }
+
+    div.keyboardTest h1 {
+      text-align: center;
+      margin-bottom: 5px;
+    }
+
+    div.keyboardTest ul {
+      list-style: none;
+      height: 80%;
+      overflow: auto;
+    }
+
+    div.keyboardTest {
+      box-sizing: border-box;
+      background: #ccc;
+      width: 50%;
+      height: 300px;
+      padding: 10px;
+      cursor: pointer;
+      overflow: hidden;
+    }
+
+    div.keyboardTest:first-child {
+      margin-right: 20px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Press any key...</h1>
+
+  <section>
+    <div id="defaultKeyboardListener" class="keyboardTest">
+      <h1>Default keyboard listener</h1>
+      <ul></ul>
+    </div>
+
+    <div id="keypressListener" class="keyboardTest">
+      <h1>KeypressListener</h1>
+      <ul></ul>
+    </div>
+  </section>
+
+  <script src="../lib/KeypressListener.js"></script>
+  <script>
+    function appendLogToKeyboardTester({ keyboardTester, key }) {
+      const listItem = document.createElement('li');
+      listItem.append(`${key} was pressed`);
+
+      const keyLogsList = keyboardTester.querySelector('ul');
+      keyLogsList.appendChild(listItem);
+      keyLogsList.scrollTop = keyLogsList.scrollHeight;
+    }
+
+    function cleanKeyboardTesterLogs(keyboardTester) {
+      keyboardTester.querySelector('ul').innerHTML = '';
+    }
+
+    function startDefaultKeyboardListener() {
+      const keyboardTester = document.querySelector('#defaultKeyboardListener');
+
+      document.addEventListener('keyup', () => cleanKeyboardTesterLogs(keyboardTester));
+
+      document.addEventListener('keydown', ({ key }) => {
+        appendLogToKeyboardTester({ keyboardTester, key });
+      });
+    }
+
+    function startKeypressListener() {
+      const keypressListener = new KeypressListener();
+      keypressListener.startListening();
+
+      const keyboardTester = document.querySelector('#keypressListener');
+
+      keypressListener.onKeyUp(() => cleanKeyboardTesterLogs(keyboardTester));
+
+      keypressListener.onKeyPress(({ key }) => {
+        appendLogToKeyboardTester({ keyboardTester, key });
+      });
+    }
+
+    startDefaultKeyboardListener();
+    startKeypressListener();
+  </script>
+</body>
+</html>
