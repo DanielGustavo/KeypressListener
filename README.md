@@ -16,7 +16,7 @@
 
 # Installation
 
-Click [here](./lib/KeypressListener.js) to download the KeypressListener, and import it in an HTML file:
+Click [here](https://raw.githubusercontent.com/DanielGustavo/KeypressListener/main/lib/KeypressListener.js) to access the file, and press **ctrl + s** to save it in your project's folder. Now, import it in an HTML file:
 
 ```
 <script src="./KeypressListener.js"></script>
