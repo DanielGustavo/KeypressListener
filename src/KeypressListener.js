@@ -2,19 +2,19 @@ function KeypressListener() {
   const keysState = {};
   const keypressObservers = [];
   const keyupObservers = [];
-  let ableToClick = true;
+  let ableToPress = true;
   const verificationsPerSecond = 60;
 
   function notifyKeyupObservers(event) {
-    keyupObservers.map((observer) => observer(event));
+    keyupObservers.forEach((observer) => observer(event));
   }
 
   function notifyKeypressObservers(event) {
-    keypressObservers.map((observer) => observer(event));
+    keypressObservers.forEach((observer) => observer(event));
   }
 
   function handleContextMenuOut() {
-    ableToClick = true;
+    ableToPress = true;
     notifyKeyupObservers({ type: 'contextMenuOut' });
   }
 
@@ -24,7 +24,7 @@ function KeypressListener() {
     });
 
     window.addEventListener('keyup', (event) => {
-      if (event.key === 'Escape' && !ableToClick) {
+      if (event.key === 'Escape' && !ableToPress) {
         handleContextMenuOut();
         return;
       }
@@ -36,21 +36,21 @@ function KeypressListener() {
     window.addEventListener('contextmenu', () => {
       const keysStateEntries = Object.entries(keysState);
 
-      keysStateEntries.map(([, currentKey]) => {
+      keysStateEntries.forEach(([, currentKey]) => {
         currentKey.pressed = false;
       });
 
-      ableToClick = false;
+      ableToPress = false;
 
       function mouseDownCallback(event) {
-        if (event.button !== 2 && !ableToClick) {
+        if (event.button !== 2 && !ableToPress) {
           handleContextMenuOut();
           removeEventListener('mousedown', mouseDownCallback);
         }
       }
 
       function windowBlurCallback() {
-        if (!ableToClick) {
+        if (!ableToPress) {
           handleContextMenuOut();
           removeEventListener('blur', windowBlurCallback);
         }
@@ -64,8 +64,8 @@ function KeypressListener() {
   this.tick = () => {
     const keysStateEntries = Object.entries(keysState);
 
-    keysStateEntries.map(([, state]) => {
-      if (state.pressed && ableToClick) {
+    keysStateEntries.forEach(([, state]) => {
+      if (state.pressed && ableToPress) {
         notifyKeypressObservers(state.event);
       }
     });
