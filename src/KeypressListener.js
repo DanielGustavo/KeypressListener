@@ -2,8 +2,9 @@ function KeypressListener() {
   const keysState = {};
   const keypressObservers = [];
   const keyupObservers = [];
-  let ableToPress = true;
   const verificationsPerSecond = 60;
+  let ableToPress = true;
+  let initialized = false;
 
   function notifyKeyupObservers(event) {
     keyupObservers.forEach((observer) => observer(event));
@@ -59,9 +60,15 @@ function KeypressListener() {
       window.addEventListener('mousedown', mouseDownCallback);
       window.addEventListener('blur', windowBlurCallback);
     });
+
+    initialized = true;
   }
 
   this.tick = () => {
+    if (!initialized) {
+      initialize();
+    }
+
     const keysStateEntries = Object.entries(keysState);
 
     keysStateEntries.forEach(([, state]) => {
@@ -93,6 +100,4 @@ function KeypressListener() {
 
     keyupObservers.push(observer);
   }
-
-  initialize();
 }
