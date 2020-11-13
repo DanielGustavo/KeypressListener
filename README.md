@@ -18,21 +18,21 @@
 
 Click [here](https://raw.githubusercontent.com/DanielGustavo/KeypressListener/main/lib/KeypressListener.js) to access the file, and press **ctrl + s** to save it in your project's folder. Now, import it in an HTML file:
 
-```
+```html
 <script src="./KeypressListener.js"></script>
 ```
 
 # Getting started
 KeypressListener is pretty simple to use, take a look:
 
-```
+```js
 const keypressListener = new KeypressListener();
 keypressListener.startListening();
 ```
 
 The `startListening()` method starts a loop, which notifies what keys are pressed 60 times per second.
 
-```
+```js
 const keypressListener = new KeypressListener();
 keypressListener.startListening();
 
@@ -54,7 +54,7 @@ A KeypressListener instance has a method called `tick()`, which executes the fun
 
 So, if you want to use the KeypressListener in an existing loop *(in a gameloop for example)*, instead of `startListening()` use `tick()` inside a loop;
 
-```
+```js
 const keypressListener = new KeypressListener();
 
 keypressListener.onKeyPress((event) => {
