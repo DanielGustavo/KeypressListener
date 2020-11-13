@@ -34,7 +34,8 @@ function KeypressListener() {
       notifyKeyupObservers(event);
     });
 
-    window.addEventListener('contextmenu', () => {
+    window.addEventListener('contextmenu', (event) => {
+      if (event.defaultPrevented) return;
       const keysStateEntries = Object.entries(keysState);
 
       keysStateEntries.forEach(([, currentKey]) => {
